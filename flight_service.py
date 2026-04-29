@@ -19,6 +19,15 @@ def execute_query(query, params):
         cursor = conn.cursor()
         cursor.execute(query, params)
         return cursor.fetchall()
+# Main Functions
+def search_flights(origin, destination, date, flight_type):
+    pricing = PRICING[flight_type]
+    total_price = calculate_price(pricing["base_price"], pricing["tax_rate"], pricing["airport_fee"])
+    print(f"Searching {flight_type} flights from {origin} to {destination} on {date}")
+    print(f"Estimated ticket price: ${total_price:.2f}")
+    query = "SELECT * FROM flights WHERE origin=? AND dest=? AND date=? AND type=?"
+    return execute_query(query, (origin, destination, date, flight_type))
+    
 
 def search_domestic_flights(origin, destination, date):
     # Establish database connection
