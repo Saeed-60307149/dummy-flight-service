@@ -14,6 +14,12 @@ def calculate_price(base_price, tax_rate, airport_fee):
     tax = base_price * tax_rate
     return base_price + tax + airport_fee
 
+def execute_query(query, params):
+    with sqlite3.connect('travelbase_legacy.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute(query, params)
+        return cursor.fetchall()
+
 def search_domestic_flights(origin, destination, date):
     # Establish database connection
     conn = sqlite3.connect('travelbase_legacy.db')
